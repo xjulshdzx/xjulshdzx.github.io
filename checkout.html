@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Reserva</title>
+    <link rel="stylesheet" href="Checkout.css">
+    <style>
+        .paypalme-link, .paypal-link, .paypal-ayuda, .linkcrearcuenta {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgb(111, 149, 25); /* Color de fondo */
+            color: white; /* Color del texto */
+            text-decoration: none; /* Quitar subrayado */
+            border-radius: 5px; /* Bordes redondeados */
+        }
+
+        .birthdate-info {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirmar Reserva</h1>
+        <p>Has seleccionado la opción: <strong id="selectedOption"></strong></p>
+        <p>De momento solo acepto pagos a través de PayPal: <a href="https://www.paypal.me/julsxhdz" target="_blank" class="paypalme-link">PayPal.Me</a></p>
+        
+        <!-- Instructions for creating a PayPal account -->
+        <button id="showInstructionsBtn" class="btn" onclick="toggleInstructions()">Si no tienes cuenta, puedes ver instrucciones para crear una cuenta de PayPal</button>
+        <div id="instructions" style="display: none;">
+            <h2>Crear una cuenta de PayPal</h2>
+            <ol>
+                <li>Visita el <a href="https://www.paypal.com/" target="_blank" class="paypal-link">sitio web de PayPal</a>.</li>
+                <li>Haz clic en el botón "Registrarse" o "Registrarse gratis".</li>
+                <li>Selecciona el tipo de cuenta que deseas crear (Personal, Empresarial o Premier).</li>
+                <li>Ingresa tu información personal, incluyendo tu nombre completo, dirección de correo electrónico y contraseña.</li>
+                <li>Opcionalmente, vincula una cuenta bancaria o tarjeta para transacciones más fluidas.</li>
+                <li>Confirma tu dirección de correo electrónico siguiendo las instrucciones enviadas a tu bandeja de entrada de correo electrónico.</li>
+                <li>Configura medidas de seguridad adicionales como la autenticación de dos factores.</li>
+                <li>Explora las características de PayPal y comienza a usar tu cuenta para enviar y recibir dinero en línea.</li>
+            </ol>
+            <p>Para obtener instrucciones más detalladas y ayuda, puedes visitar el <a href="https://www.paypal.com/us/smarthelp/home" target="_blank" class="paypal-ayuda">Centro de ayuda de PayPal</a>.</p>
+        </div>
+
+        <!-- Button for completing form after payment -->
+        <button id="showFormBtn" class="btn" onclick="toggleForm()">Cuando hayas pagado, por favor completa este formulario</button>
+        <div id="form" style="display: none;">
+            <h2>Por favor completa este formulario después de realizar el pago:</h2>
+            <form id="reservationForm" onsubmit="return submitForm()">
+                <div>
+                    <label for="fullName">Nombre completo:</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div>
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div>
+                    <label for="birthdate">Fecha de nacimiento:</label>
+                    <span class="birthdate-info">(Puedes escribir la fecha o seleccionarla del calendario)</span>
+                    <input type="date" id="birthdate" name="birthdate" required min="1900-01-01">
+                </div>                
+
+                <div>
+                    <label for="payerName">Nombre de la persona que realizó el pago:</label>
+                    <input type="text" id="payerName" name="payerName" required>
+                </div>
+
+                <div id="questionInput"></div>
+
+                <input type="submit" value="Enviar" class="paypalme-link">
+            </form>
+        </div>
+
+
+        <script>
+            const instructions = document.getElementById('instructions');
+            const form = document.getElementById('form');
+
+            function toggleInstructions() {
+                if (instructions.style.display === 'none') {
+                    instructions.style.display = 'block';
+                    form.style.display = 'none'; // Hide form when instructions are shown
+                } else {
+                    instructions.style.display = 'none';
+                }
+            }
+
+            function toggleForm() {
+                if (form.style.display === 'none') {
+                    form.style.display = 'block';
+                    instructions.style.display = 'none'; // Hide instructions when form is shown
+                } else {
+                    form.style.display = 'none';
+                }
+            }
+
+            // Retrieve option from query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const option = urlParams.get('option');
+
+            // Display the selected option
+            const optionElement = document.getElementById('selectedOption');
+            if (option === '1') {
+                optionElement.textContent = 'Una pregunta de sí o no - $10';
+                createQuestionInput("Escribe tu pregunta:");
+            } else if (option === '2') {
+                optionElement.textContent = '5 preguntas (incluyendo sí o no) o extensas - $25';
+                createQuestionInput("Escribe tus 5 preguntas:");
+            } else if (option === '3') {
+                optionElement.textContent = 'Lectura extensa sin límite - $50';
+                createQuestionInput("Escribe tu pregunta (máximo 400 caracteres)");
+            }
+
+            // Function to create question input based on option selected
+            function createQuestionInput(labelText) {
+                const questionInputDiv = document.getElementById('questionInput');
+                questionInputDiv.innerHTML = ''; // Clear previous content
+                const label = document.createElement('label');
+                label.textContent = labelText;
+                const input = document.createElement('textarea');
+                input.id = 'question'; // Set id for textarea
+                input.name = 'question';
+                input.rows = 4;
+                input.cols = 50;
+                input.required = true;
+                questionInputDiv.appendChild(label);
+                questionInputDiv.appendChild(input);
+            }
+
+            // Function to handle form submission
+            function submitForm() {
+                // Retrieve existing form submissions from local storage or initialize an empty array
+                const submittedForms = JSON.parse(localStorage.getItem('submittedForms')) || [];
+
+                // Collect form data
+                const formData = {
+                    fullName: document.getElementById("fullName").value,
+                    email: document.getElementById("email").value,
+                    birthdate: document.getElementById("birthdate").value,
+                    payerName: document.getElementById("payerName").value,
+                    question: document.getElementById("question").value
+                };
+
+                // Add new form data to the array
+                submittedForms.push(formData);
+
+                // Store the updated form submissions back to local storage
+                localStorage.setItem('submittedForms', JSON.stringify(submittedForms));
+
+                // Provide feedback to the user
+                alert("Gracias por confiar en mí, tu respuesta llegará al correo registrado. El tiempo de respuesta es de 24 a 48 horas.");
+
+                // Redirect to the home screen
+                window.location.href = "TarotHomePage.html";
+
+                // Prevent the form from being submitted through traditional means
+                return false;
+            }
+        </script>
+
+    </div>
+</body>
+</html>

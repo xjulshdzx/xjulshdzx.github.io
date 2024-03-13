@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('image2.png'); /* Replace 'image2.png' with the path to your image */
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed; /* Ensures the background image remains fixed */
+    font-family: 'Roboto', sans-serif; /* Optional: Set font-family */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Set the height of the body to viewport height */
+}
+
+.container {
+    padding: 20px;
+    text-align: center; /* Center-align content */
+    color: white; /* Set text color to white */
+}
+
+h1 {
+    font-size: 40px; /* Optional: Adjust font size */
+    font-weight: bold; /* Optional: Set font weight to bold */
+    margin-bottom: 20px; /* Add margin-bottom for spacing */
+}
+
+.options {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.5); /* White background color with 50% opacity */
+    color: white; /* White text color */
+    text-decoration: none;
+    border-radius: 5px; /* Rounded corners */
+    margin-bottom: 10px; /* Add margin between options */
+}

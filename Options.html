@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar Opción de Lectura</title>
+    <link rel="stylesheet" href="Options.css">
+    <style>
+        .link {
+            display: block;
+            padding: 10px; /* Add padding to the links */
+            margin-bottom: 10px; /* Add margin between each link */
+            text-decoration: none;
+            color: black;
+        }
+
+        .filled-link {
+            background-color: rgb(111, 149, 25);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .filled-link:hover {
+            background-color: darkgreen; /* Change background color on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Selecciona la opción de Lectura</h1>
+        <ul>
+            <li><a class="link filled-link" href="checkout.html?option=1">Una pregunta de sí o no - $10</a></li>
+            <li><a class="link filled-link" href="checkout.html?option=2">5 preguntas o extensas - $25</a></li>
+            <li><a class="link filled-link" href="checkout.html?option=3">Lectura extensa sin límite - $50</a></li>
+        </ul>
+    </div>
+</body>
+</html>

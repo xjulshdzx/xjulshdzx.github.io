@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <div id="submittedForms"></div>
+    <button onclick="showCompletedReadings()">Completed Readings</button>
+
+    <div id="completedReadings" style="display: none;">
+        <h1>Completed Readings</h1>
+        <div id="completedForms"></div>
+        <button onclick="goBackToDashboard()">Back to Dashboard</button>
+    </div>
+
+    <script>
+        // Function to fetch submitted form data
+        function fetchSubmittedForms() {
+            // Retrieve form data from local storage
+            const submittedForms = JSON.parse(localStorage.getItem('submittedForms'));
+
+            // Check if form data exists
+            if (submittedForms && submittedForms.length > 0) {
+                // Generate HTML to display submitted forms
+                const submittedFormsContainer = document.getElementById("submittedForms");
+                const completedFormsContainer = document.getElementById("completedForms");
+
+                // Clear existing content
+                submittedFormsContainer.innerHTML = '';
+                completedFormsContainer.innerHTML = '';
+
+                submittedForms.forEach((form, index) => {
+                    const formHTML = `
+                        <div>
+                            <h2>${form.fullName}</h2>
+                            <p><strong>Email:</strong> ${form.email}</p>
+                            <p><strong>Birthdate:</strong> ${form.birthdate}</p>
+                            <p><strong>Payer Name:</strong> ${form.payerName}</p>
+                            <p><strong>Question:</strong> ${form.question}</p>
+                            ${!form.completed ? `<button onclick="markCompleted(${index})">Completed</button>` : ''}
+                        </div>
+                        <hr>
+                    `;
+                    if (form.completed) {
+                        completedFormsContainer.innerHTML += formHTML;
+                    } else {
+                        submittedFormsContainer.innerHTML += formHTML;
+                    }
+                });
+            } else {
+                // If no form data exists, display message
+                document.getElementById("submittedForms").textContent = "No forms submitted yet.";
+            }
+        }
+
+        // Function to mark a form as completed
+        function markCompleted(index) {
+            // Retrieve form data from local storage
+            const submittedForms = JSON.parse(localStorage.getItem('submittedForms'));
+
+            // Mark the form at the specified index as completed
+            submittedForms[index].completed = true;
+
+            // Update the form data in local storage
+            localStorage.setItem('submittedForms', JSON.stringify(submittedForms));
+
+            // Re-fetch and display the updated submitted forms
+            fetchSubmittedForms();
+        }
+
+        // Function to show completed readings tab
+        function showCompletedReadings() {
+            const completedReadingsTab = document.getElementById("completedReadings");
+            const submittedFormsContainer = document.getElementById("submittedForms");
+
+            // Hide submitted forms and show completed readings tab
+            submittedFormsContainer.style.display = "none";
+            completedReadingsTab.style.display = "block";
+
+            // Fetch and display submitted forms
+            fetchSubmittedForms();
+        }
+
+        // Function to go back to the dashboard
+        function goBackToDashboard() {
+            const completedReadingsTab = document.getElementById("completedReadings");
+            const submittedFormsContainer = document.getElementById("submittedForms");
+
+            // Show submitted forms and hide completed readings tab
+            submittedFormsContainer.style.display = "block";
+            completedReadingsTab.style.display = "none";
+
+            // Fetch and display submitted forms
+            fetchSubmittedForms();
+        }
+
+        // Call the function to fetch and display submitted forms when the dashboard loads
+        fetchSubmittedForms();
+    </script>
+</body>
+</html>

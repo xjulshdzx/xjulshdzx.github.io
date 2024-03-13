@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    background-image: url('image1.png'); /* Replace 'image1.png' with the path to your image */
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Adjust the height of the container */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white; /* Optional: Adjust text color */
+}
+
+.container h1 {
+    font-size: 3rem; /* Adjust font size of the heading */
+}
+
+.container .description {
+    font-size: 1.6rem; /* Adjust font size of the description */
+    margin-bottom: 20px; /* Optional: Add some spacing between elements */
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.container .btn {
+    padding: 10px 20px;
+    background-color: #ff4500; /* Adjust button background color */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2rem; /* Adjust font size of the button */
+}
+
+.container .btn:hover {
+    background-color: #e63900; /* Adjust button background color on hover */
+}
+
+.age-restriction {
+    background-color: rgba(255, 0, 0, 0.3); /* Example background color with transparency */
+    padding: 3px; /* Add padding for better appearance */
+    border-radius: 3px; /* Add border radius for rounded corners */
+    text-align: center; /* Align text to the center */
+    margin-bottom: 20px; /* Add margin to the bottom */
+    font-weight: bold; /* Make the text bold */
+
+}
+
+.button-container {
+    margin-top: 20px; /* Add margin to the top of the button container */
+}

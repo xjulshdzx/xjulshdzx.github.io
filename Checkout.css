@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('image3.png'); /* Path to your background image */
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    font-family: 'Roboto', sans-serif; /* Optional: Set font-family */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white; /* Set text color to white */
+}
+
+.container {
+    padding: 20px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.7); /* Set background color with transparency */
+    margin: 0 auto; /* Center horizontally */
+    text-align: left; /* Align text to the left */
+
+}
